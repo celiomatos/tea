@@ -1,0 +1,79 @@
+<ng-container>
+  <mat-toolbar class="home-header">
+    <div>      
+      <label class="icon-button" mat-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </label>
+    </div>
+    <div>
+      <label class="icon-button" mat-button routerLink="/">
+        <mat-icon>home</mat-icon>
+      </label>
+      <label class="icon-button" mat-button (click)="sidenav.toggle()">
+        <mat-icon>exit_to_app</mat-icon>
+      </label>
+      <label class="icon-button" mat-button routerLink="/pedido">
+        <mat-icon>settings</mat-icon>
+      </label>
+      <span>Celio Matos</span>
+    </div>  
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" opened class="menu-sidenav" 
+        [fixedInViewport]="false" [fixedTopGap]="0" [fixedBottomGap]="0">
+
+        <img id="logo" alt="logo" src="assets/logo.png" height="100px" width="100px">
+
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>map</mat-icon> Cadastro
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-button class="item-menu" routerLink="/filial">- Filial Cadastrada co nome grande</a>
+            <a mat-button class="item-menu" routerLink="/fornecedor">- Fornecedor</a>
+            <a mat-button class="item-menu">- Usuario</a>
+            <a mat-button class="item-menu">- Pedido</a>
+            <a mat-button class="item-menu">- Usuario</a>
+            <a mat-button class="item-menu">- Pedido</a>
+            <a mat-button class="item-menu">- Usuario</a>
+            <a mat-button class="item-menu">- Pedido</a>
+            <a mat-button class="item-menu">- Usuario</a>
+            <a mat-button class="item-menu">- Pedido</a>
+            <a mat-button class="item-menu">- Usuario</a>
+            <a mat-button class="item-menu">- Pedido</a>
+            <a mat-button class="item-menu">- Usuario</a>
+          </mat-expansion-panel>
+          <button mat-raised-button routerLink="/produto" class="bt-item-menu">
+            <mat-icon>home</mat-icon> <span>View</span> 
+          </button>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>account_circle</mat-icon> Relatorio
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-button class="item-menu">- Compras</a>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>thumb_up</mat-icon> Vendas
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-button class="item-menu">- Compras</a>
+          </mat-expansion-panel>
+        </mat-accordion>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <mat-toolbar class="home-footer">
+    <span>{{ app.name }} - {{ app.version }}</span>
+  </mat-toolbar>
+</ng-container>
