@@ -1,24 +1,3 @@
-<div class="div-class">
-  <mat-card>
-    <mat-card-actions>
-        <button mat-icon-button color="warn">
-          <mat-icon>favorite</mat-icon>
-        </button>
-
-        <button mat-icon-button>
-          <mat-icon>open_in_new</mat-icon>
-        </button>
-
-        <button mat-icon-button disabled>
-          <mat-icon>menu</mat-icon>
-        </button>
-    </mat-card-actions>
-    
-    <mat-card-content>
-      ola
-    </mat-card-content>
-  </mat-card>
-
   <div class="mat-elevation-z8">
     <mat-table [dataSource]="dataSource">
       <!-- Position Column -->
@@ -44,6 +23,16 @@
         <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
       </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="menu">
+        <mat-header-cell *matHeaderCellDef> Menu </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button color="warn" (click)="openForm(element.menu)">
+            <mat-icon>favorite</mat-icon>
+          </button> 
+        </mat-cell>
+      </ng-container>
   
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -51,4 +40,3 @@
 
     <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
   </div>
-</div>

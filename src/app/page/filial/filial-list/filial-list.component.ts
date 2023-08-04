@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { FilialFormComponent } from '../filial-form/filial-form.component';
 
 @Component({
   selector: 'tea-filial-list',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FilialListComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) {
+
+  }
 
   ngOnInit(): void {
+  }
+
+  openForm(id: number) {
+    console.log(' em filial id ===== ' + id)
+    const dialogRef = this.dialog.open(FilialFormComponent, {
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(() => {
+    });
   }
 
 }

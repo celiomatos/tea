@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'tea-form',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormComponent implements OnInit {
 
+  @Output() closeForm = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  close() {
+    this.closeForm.emit();
   }
 
 }
