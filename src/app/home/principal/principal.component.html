@@ -23,7 +23,9 @@
     <mat-sidenav #sidenav mode="side" opened class="menu-sidenav" 
         [fixedInViewport]="false" [fixedTopGap]="0" [fixedBottomGap]="0">
 
-        <img id="logo" alt="logo" src="assets/logo.png" height="100px" width="100px">
+        <div class="logo">
+          <img id="logo" alt="logo" src="assets/logo.png" height="100px" width="100px">
+        </div>
 
         <mat-accordion>
           <mat-expansion-panel>
@@ -34,21 +36,12 @@
             </mat-expansion-panel-header>
             <a mat-button class="item-menu" routerLink="/filial">- Filial Cadastrada co nome grande</a>
             <a mat-button class="item-menu" routerLink="/fornecedor">- Fornecedor</a>
-            <a mat-button class="item-menu">- Usuario</a>
-            <a mat-button class="item-menu">- Pedido</a>
-            <a mat-button class="item-menu">- Usuario</a>
-            <a mat-button class="item-menu">- Pedido</a>
-            <a mat-button class="item-menu">- Usuario</a>
-            <a mat-button class="item-menu">- Pedido</a>
-            <a mat-button class="item-menu">- Usuario</a>
-            <a mat-button class="item-menu">- Pedido</a>
-            <a mat-button class="item-menu">- Usuario</a>
-            <a mat-button class="item-menu">- Pedido</a>
-            <a mat-button class="item-menu">- Usuario</a>
           </mat-expansion-panel>
+
           <button mat-raised-button routerLink="/produto" class="bt-item-menu">
             <mat-icon>home</mat-icon> <span>View</span> 
           </button>
+
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -57,6 +50,7 @@
             </mat-expansion-panel-header>
             <a mat-button class="item-menu">- Compras</a>
           </mat-expansion-panel>
+
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
