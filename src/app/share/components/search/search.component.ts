@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'tea-search',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./search.component.sass']
 })
 export class SearchComponent {
+
+  @Output() open = new EventEmitter();
+
+  openForm() {
+    this.open.emit();
+  }
 
 }

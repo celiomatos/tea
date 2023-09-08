@@ -16,7 +16,7 @@ export class FilialListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openForm(id: number) {
+  openForm(id?: number) {
     console.log(' em filial id ===== ' + id)
     const dialogRef = this.dialog.open(FilialFormComponent, {
       disableClose: true
