@@ -15,7 +15,9 @@ export class LoginComponent implements OnInit {
   app = require('./../../../../package.json');
   form: FormGroup;
 
-  constructor(private readonly router: Router, private readonly authService: AuthService) {
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService) {
     console.log(this.app.version);
   }
 
