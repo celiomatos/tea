@@ -2,5 +2,5 @@
     <tea-search (open)="openForm()">
       <div>ola mundo</div>
     </tea-search>
-    <tea-table (sendId)="openForm($event)"></tea-table>
+    <tea-table (sendId)="openForm($event)" [columns]="columns" [dataSource] = "dataSource"></tea-table>
 </div>

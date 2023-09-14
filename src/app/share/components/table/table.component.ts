@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Column } from './column';
 
 @Component({
   selector: 'tea-table',
@@ -11,14 +12,18 @@ import { MatTableDataSource } from '@angular/material/table';
 export class TableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'menu'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+
+  @Input() columns: Column<any>[];
+  @Input() dataSource = new MatTableDataSource<any>();
+  displayedColumns: string[] = [];
+
   panelOpenState = false;
 
   @Output() sendId = new EventEmitter();
 
 
   ngOnInit(): void {
+    this.columns.forEach(c => this.displayedColumns.push(c.field))
   }
 
   ngAfterViewInit() {
@@ -27,24 +32,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
 
   openForm(id: number) {
-    console.log('id ===== ' + id)
     this.sendId.emit(id);
   }
 }
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  menu: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', menu: 1 },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He', menu: 2 },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li', menu: 3 },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be', menu: 4 },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B', menu: 6 },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C', menu: 6 }
-];

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FilialListComponent } from '../filial-list/filial-list.component';
+import { CustomerListComponent } from '../customer-list/customer-list.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: FilialListComponent
+    component: CustomerListComponent
   }
 ]
 
@@ -19,4 +19,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 
-export class FilialRoutingModule { }
+export class CustomerRoutingModule { }
