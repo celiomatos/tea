@@ -1,24 +1,26 @@
   <div class="mat-elevation-z8">
-    <mat-table [dataSource]="dataSource">
-      <!-- Position Column -->
-      <ng-container *ngFor="let column of columns" [matColumnDef]="column.field">
-        <mat-header-cell *matHeaderCellDef> {{ column.header }} </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ column.value(element) }} </mat-cell>
+    <table mat-table [dataSource]="dataSource">
+      <caption></caption>
+      <ng-container *ngFor="let column of columns, let i=index" [matColumnDef]="column.field">
+          <div *ngIf="'id' !== column.field">
+            <th mat-header-cell *matHeaderCellDef [style.width]="columnWidths[i]"> 
+              {{ column.header }} 
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ column.value(element) }} </td>
+          </div>
+          <div *ngIf="'id' === column.field">
+            <th mat-header-cell *matHeaderCellDef> View </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn" (click)="openForm(column.value(element))">
+                <mat-icon>open_in_new</mat-icon>
+              </button> 
+            </td>
+          </div>
       </ng-container>
-
-      <!-- Symbol Column 
-      <ng-container matColumnDef="menu">
-        <mat-header-cell *matHeaderCellDef> Menu </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <button mat-icon-button color="warn" (click)="openForm(element.menu)">
-            <mat-icon>favorite</mat-icon>
-          </button> 
-        </mat-cell>
-      </ng-container>
-  -->
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 
     <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
   </div>

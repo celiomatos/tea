@@ -14,10 +14,10 @@ import { CustomerService } from '../share/customer.service';
 export class CustomerListComponent implements OnInit {
 
   columns = [
-    new Column<Customer>('id', 'ID', item => item.id, '15%'),
-    new Column<Customer>('name', 'Nome', item => item.name, '45%'),
-    new Column<Customer>('trade', 'Fantasia', item => item.trade, '25%'),
-    new Column<Customer>('address.street', 'Logradouro', item => item.address?.street, '25%')
+    new Column<Customer>('name', 'Nome', item => item.name, '35%'),
+    new Column<Customer>('trade', 'Fantasia', item => item.trade, '30%'),
+    new Column<Customer>('address.street', 'Logradouro', item => item.address?.street, '30%'),
+    new Column<Customer>('id', 'ID', item => item.id, '5%')
   ];
 
   dataSource = new MatTableDataSource<Customer>();

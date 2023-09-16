@@ -16,6 +16,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() columns: Column<any>[];
   @Input() dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [];
+  columnWidths: string[] = [];
 
   panelOpenState = false;
 
@@ -23,7 +24,8 @@ export class TableComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.columns.forEach(c => this.displayedColumns.push(c.field))
+    this.columns.forEach(c => { this.displayedColumns.push(c.field) })
+    this.columns.forEach(c => { this.columnWidths.push(c.width) })
   }
 
   ngAfterViewInit() {
