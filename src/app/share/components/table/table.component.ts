@@ -33,7 +33,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
 
-  openForm(id: number) {
+  openForm(id: string) {
     this.sendId.emit(id);
   }
 }

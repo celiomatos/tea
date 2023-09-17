@@ -9,6 +9,8 @@ export abstract class ApiService<E> {
     constructor(private readonly http: HttpClient) { }
 
     protected abstract entityPath(): string;
+    protected abstract isListEmpty(): boolean;
+    protected abstract getList(): Observable<E[]>;
 
     private path(): string {
         return environment.url.concat(this.entityPath());
@@ -19,7 +21,7 @@ export abstract class ApiService<E> {
     }
 
     getAll(): Observable<E[]> {
-        return this.http.get<E[]>(this.path());
+        return this.isListEmpty() ? this.http.get<E[]>(this.path()) : this.getList();
     }
 
     insert(e: E): Observable<E> {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Column } from 'src/app/share/components/table/column';
 import { Customer } from '../../customer/share/customer';
@@ -26,15 +26,30 @@ export class CustomerListComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getAll().subscribe({
-      next: (data: Customer[]) => { this.dataSource.data = data },
+      next: (data: Customer[]) => {
+        this.dataSource.data = data;
+        this.service.customers = data
+      },
       error: (erro) => { console.log(erro) }
     });
   }
 
-  openForm(id?: number) {
-    const dialogRef = this.dialog.open(CustomerFormComponent, {
-      disableClose: true
-    });
+  openForm(id?: string) {
+    let customer;
+    if (id) {
+      let customers = this.dataSource.data.filter(r => r.id === id);
+      customer = customers[0];
+    }
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      id: id,
+      customer: customer
+    }
+
+    const dialogRef = this.dialog.open(CustomerFormComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(() => {
     });
   }

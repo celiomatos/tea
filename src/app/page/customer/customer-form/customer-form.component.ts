@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Customer } from '../share/customer';
 
 @Component({
   selector: 'tea-customer-form',
@@ -8,7 +9,17 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class CustomerFormComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<CustomerFormComponent>) { }
+  id: string;
+  customer: Customer;
+
+  constructor(@Inject(MAT_DIALOG_DATA) data: any, private dialogRef: MatDialogRef<CustomerFormComponent>) {
+    this.id = data.id;
+    if (this.id) {
+      this.customer = data.customer;
+    } else {
+      this.customer = new Customer();
+    }
+  }
 
   ngOnInit(): void {
   }
