@@ -6,11 +6,11 @@ import { environment } from "src/environments/environment";
 @Injectable()
 export abstract class ApiService<E> {
 
+    es: E[] = [];
+
     constructor(private readonly http: HttpClient) { }
 
     protected abstract entityPath(): string;
-    protected abstract isListEmpty(): boolean;
-    protected abstract getList(): Observable<E[]>;
 
     private path(): string {
         return environment.url.concat(this.entityPath());
@@ -21,7 +21,8 @@ export abstract class ApiService<E> {
     }
 
     getAll(): Observable<E[]> {
-        return this.isListEmpty() ? this.http.get<E[]>(this.path()) : this.getList();
+        return 0 === this.es.length ? this.http.get<E[]>(this.path())
+            : new Observable((observer) => { observer.next(this.es) });
     }
 
     insert(e: E): Observable<E> {

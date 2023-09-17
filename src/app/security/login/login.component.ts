@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService) {
-    console.log(this.app.version);
   }
 
   ngOnInit(): void {

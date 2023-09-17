@@ -1,1 +1,19 @@
-<tea-form (closeForm)="closeForm()">Vamos comecar a cadastrar {{customer.name}}</tea-form>
+<form [formGroup]="form">
+    <tea-form (closeForm)="closeForm()" (editForm)="editForm()">
+        <mat-form-field class="field-full-width" appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="name" [maxlength]="50">
+            <mat-error *ngIf="form.controls['name'].hasError('required')">
+                <span> Campo Obrigário </span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="field-full-width" appearance="outline">
+            <mat-label>Fantasia</mat-label>
+            <input matInput formControlName="trade" [maxlength]="50">
+            <mat-error *ngIf="form.controls['trade'].hasError('required')">
+                <span> Campo Obrigário </span>
+            </mat-error>
+        </mat-form-field>
+    </tea-form>
+</form>

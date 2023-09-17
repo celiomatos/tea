@@ -28,7 +28,7 @@ export class CustomerListComponent implements OnInit {
     this.service.getAll().subscribe({
       next: (data: Customer[]) => {
         this.dataSource.data = data;
-        this.service.customers = data
+        this.service.es = data
       },
       error: (erro) => { console.log(erro) }
     });

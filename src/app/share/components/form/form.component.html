@@ -1,7 +1,12 @@
 <mat-card>
     <mat-card-title>Form Cadastro</mat-card-title>
+    
+    <mat-card-content>
+      <ng-content></ng-content>
+    </mat-card-content>
+
     <mat-card-actions>
-        <button mat-icon-button>
+        <button mat-icon-button (click)="edit()">
           <mat-icon>menu</mat-icon>
         </button>
 
@@ -9,8 +14,4 @@
           <mat-icon>close</mat-icon>
         </button>
     </mat-card-actions>
-    
-    <mat-card-content>
-        <ng-content></ng-content>
-    </mat-card-content>
   </mat-card>
