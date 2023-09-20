@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Contact } from 'src/app/share/components/model/contact';
+import { States } from 'src/app/share/components/model/estado';
 import { Customer } from '../share/customer';
 
 @Component({
@@ -14,10 +16,13 @@ export class CustomerFormComponent implements OnInit {
 
   customer: Customer;
   view = true;
+  states = States;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
+    private fb: FormBuilder,
     private dialogRef: MatDialogRef<CustomerFormComponent>) {
+
     if (data.id) {
       this.customer = data.customer;
     } else {
@@ -27,14 +32,52 @@ export class CustomerFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
+
+    this.form = this.fb.group({
+      id: new FormControl({ value: this.customer.id, disabled: true }),
       name: new FormControl({ value: this.customer.name, disabled: this.view },
-        [Validators.required,
-        Validators.maxLength(50)]),
+        [Validators.maxLength(50), Validators.required]),
       trade: new FormControl({ value: this.customer.trade, disabled: this.view },
-        [Validators.required,
-        Validators.maxLength(50)])
+        [Validators.maxLength(50)]),
+      document: new FormControl({ value: this.customer.document, disabled: this.view },
+        [Validators.maxLength(13)]),
+      registration: new FormControl({ value: this.customer.registration, disabled: this.view },
+        [Validators.maxLength(13)]),
+      cep: new FormControl({ value: this.customer.address?.cep, disabled: this.view },
+        [Validators.maxLength(13)]),
+      country: new FormControl({ value: this.customer.address?.country, disabled: this.view },
+        [Validators.maxLength(13)]),
+      state: new FormControl({ value: this.customer.address?.state, disabled: this.view },
+        [Validators.maxLength(13)]),
+      city: new FormControl({ value: this.customer.address?.city, disabled: this.view },
+        [Validators.maxLength(13)]),
+      neighborhood: new FormControl({ value: this.customer.address?.neighborhood, disabled: this.view },
+        [Validators.maxLength(13)]),
+      street: new FormControl({ value: this.customer.address?.street, disabled: this.view },
+        [Validators.maxLength(13)]),
+      number: new FormControl({ value: this.customer.address?.number, disabled: this.view },
+        [Validators.maxLength(13)]),
+      contacts: this.fb.array([])
     });
+
+    this.customer.contacts?.forEach(contact => {
+      this.contacts.push(this.addContact(contact));
+    });
+    if (!this.view) {
+      this.contacts.push(this.addContact());
+    }
+  }
+
+  get contacts(): FormArray {
+    return this.form.get('contacts') as FormArray;
+  }
+
+  addContact(contact?: Contact): FormGroup {
+    return this.fb.group({
+      name: new FormControl({ value: contact?.name, disabled: this.view }),
+      email: new FormControl({ value: contact?.email, disabled: this.view }),
+      phone: new FormControl({ value: contact?.phone, disabled: this.view })
+    })
   }
 
   closeForm() {
@@ -44,6 +87,7 @@ export class CustomerFormComponent implements OnInit {
   editForm() {
     this.form.controls['name'].enable();
     this.form.controls['trade'].enable();
+    this.form.controls['state'].enable();
   }
 
 }
