@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatTabGroup } from '@angular/material/tabs';
 import { Contact } from 'src/app/share/components/model/contact';
 import { States } from 'src/app/share/components/model/estado';
 import { Customer } from '../share/customer';
@@ -17,6 +18,8 @@ export class CustomerFormComponent implements OnInit {
   customer: Customer;
   view = true;
   states = States;
+
+  @ViewChild('tabGroup', { static: false }) tab: MatTabGroup;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
@@ -64,12 +67,17 @@ export class CustomerFormComponent implements OnInit {
       this.contacts.push(this.addContact(contact));
     });
     if (!this.view) {
-      this.contacts.push(this.addContact());
+      this.addNewContact();
     }
   }
 
   get contacts(): FormArray {
     return this.form.get('contacts') as FormArray;
+  }
+
+  addNewContact() {
+    this.contacts.push(this.addContact());
+    this.tab.selectedIndex = this.contacts.length - 1;
   }
 
   addContact(contact?: Contact): FormGroup {
