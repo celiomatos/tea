@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTabGroup } from '@angular/material/tabs';
+import { Address } from 'src/app/share/components/model/address';
 import { Contact } from 'src/app/share/components/model/contact';
 import { States } from 'src/app/share/components/model/estado';
 import { Customer } from '../share/customer';
@@ -88,6 +89,10 @@ export class CustomerFormComponent implements OnInit {
     })
   }
 
+  delContact(index: number) {
+    this.contacts.removeAt(index);
+  }
+
   closeForm() {
     this.dialogRef.close();
   }
@@ -98,4 +103,31 @@ export class CustomerFormComponent implements OnInit {
     this.form.controls['state'].enable();
   }
 
+  saveForm() {
+    this.customer.name = this.form.controls['name']?.value;
+    this.customer.trade = this.form.controls['trade']?.value;
+    this.customer.document = this.form.controls['document']?.value;
+    this.customer.registration = this.form.controls['registration']?.value;
+
+    this.customer.address = new Address();
+    this.customer.address.cep = this.form.controls['cep']?.value;
+    this.customer.address.country = this.form.controls['country']?.value;
+    this.customer.address.state = this.form.controls['state']?.value;
+    this.customer.address.city = this.form.controls['city']?.value;
+    this.customer.address.neighborhood = this.form.controls['neighborhood']?.value;
+    this.customer.address.street = this.form.controls['street']?.value;
+    this.customer.address.number = this.form.controls['number']?.value;
+
+    this.customer.contacts = [];
+
+    for (let i = 0; i < this.contacts.length; i++) {
+      const element = this.contacts.at(i) as FormGroup;
+      const contact = new Contact();
+      contact.name = element.controls['name']?.value;
+      contact.email = element.controls['email']?.value;
+      contact.phone = element.controls['phone']?.value;
+      this.customer.contacts.push(contact);
+    }
+    console.log(this.customer);
+  }
 }

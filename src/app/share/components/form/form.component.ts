@@ -9,6 +9,7 @@ export class FormComponent {
 
   @Output() closeForm = new EventEmitter();
   @Output() editForm = new EventEmitter();
+  @Output() saveForm = new EventEmitter();
 
   close() {
     this.closeForm.emit();
@@ -16,6 +17,10 @@ export class FormComponent {
 
   edit() {
     this.editForm.emit();
+  }
+
+  save() {
+    this.saveForm.emit();
   }
 
 }
