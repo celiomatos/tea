@@ -17,7 +17,7 @@ export abstract class ApiService<E> {
     }
 
     getById(id: string): Observable<E> {
-        return this.http.get<E>(this.path() + id);
+        return this.http.get<E>(this.path() + '/' + id);
     }
 
     getAll(): Observable<E[]> {
@@ -30,10 +30,10 @@ export abstract class ApiService<E> {
     }
 
     update(id: string, e: E): Observable<E> {
-        return this.http.put<E>(this.path() + id, e);
+        return this.http.put<E>(this.path() + '/' + id, e);
     }
 
     delete(id: string): Observable<E> {
-        return this.http.delete<E>(this.path() + id);
+        return this.http.delete<E>(this.path() + '/' + id);
     }
 }

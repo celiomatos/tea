@@ -1,7 +1,7 @@
 <mat-card class="scrollable-content">
     <mat-card-title>
       <span>Form Cadastro</span>
-      <button mat-icon-button color="warn" (click)="close()">
+      <button mat-icon-button (click)="close()">
         <mat-icon>close</mat-icon>
     </button>
     </mat-card-title>
@@ -15,7 +15,7 @@
           Editar
           <mat-icon>filter_list</mat-icon>
         </button>
-        <button mat-button color="primary" (click)="save()">
+        <button mat-button color="primary" (click)="save()" [disabled]="formValid">
           Salvar
           <mat-icon>menu</mat-icon>
         </button>

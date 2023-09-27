@@ -6,6 +6,7 @@ import { Address } from 'src/app/share/components/model/address';
 import { Contact } from 'src/app/share/components/model/contact';
 import { States } from 'src/app/share/components/model/estado';
 import { Customer } from '../share/customer';
+import { CustomerService } from '../share/customer.service';
 
 @Component({
   selector: 'tea-customer-form',
@@ -25,7 +26,8 @@ export class CustomerFormComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<CustomerFormComponent>) {
+    private dialogRef: MatDialogRef<CustomerFormComponent>,
+    private service: CustomerService) {
 
     if (data.id) {
       this.customer = data.customer;
@@ -49,7 +51,7 @@ export class CustomerFormComponent implements OnInit {
         [Validators.maxLength(13)]),
       cep: new FormControl({ value: this.customer.address?.cep, disabled: this.view },
         [Validators.maxLength(13)]),
-      country: new FormControl({ value: this.customer.address?.country, disabled: this.view },
+      country: new FormControl({ value: this.customer.address?.country ?? 'Brasil', disabled: this.view },
         [Validators.maxLength(13)]),
       state: new FormControl({ value: this.customer.address?.state, disabled: this.view },
         [Validators.maxLength(13)]),
@@ -58,7 +60,7 @@ export class CustomerFormComponent implements OnInit {
       neighborhood: new FormControl({ value: this.customer.address?.neighborhood, disabled: this.view },
         [Validators.maxLength(13)]),
       street: new FormControl({ value: this.customer.address?.street, disabled: this.view },
-        [Validators.maxLength(13)]),
+        [Validators.maxLength(50)]),
       number: new FormControl({ value: this.customer.address?.number, disabled: this.view },
         [Validators.maxLength(13)]),
       contacts: this.fb.array([])
@@ -78,7 +80,8 @@ export class CustomerFormComponent implements OnInit {
 
   addNewContact() {
     this.contacts.push(this.addContact());
-    this.tab.selectedIndex = this.contacts.length - 1;
+    if (this.contacts.length > 1)
+      this.tab.selectedIndex = this.contacts.length - 1;
   }
 
   addContact(contact?: Contact): FormGroup {
@@ -98,9 +101,27 @@ export class CustomerFormComponent implements OnInit {
   }
 
   editForm() {
+    this.view = false;
     this.form.controls['name'].enable();
     this.form.controls['trade'].enable();
+    this.form.controls['document'].enable();
+    this.form.controls['registration'].enable();
+    this.form.controls['cep'].enable();
+    this.form.controls['country'].enable();
     this.form.controls['state'].enable();
+    this.form.controls['city'].enable();
+    this.form.controls['neighborhood'].enable();
+    this.form.controls['street'].enable();
+    this.form.controls['number'].enable();
+    this.form.controls['cep'].enable();
+
+    for (let i = 0; i < this.contacts.length; i++) {
+      const element = this.contacts.at(i) as FormGroup;
+      element.controls['name'].enable();
+      element.controls['email'].enable();
+      element.controls['phone'].enable();
+    }
+
   }
 
   saveForm() {
@@ -128,6 +149,32 @@ export class CustomerFormComponent implements OnInit {
       contact.phone = element.controls['phone']?.value;
       this.customer.contacts.push(contact);
     }
-    console.log(this.customer);
+
+    this.customer.id ? this.update() : this.save();
+
+  }
+
+  update() {
+    this.service.update(this.customer.id, this.customer).subscribe({
+      next: (data: Customer) => {
+        const index = this.service.es.findIndex(e => e.id === this.customer.id);
+        this.service.es.splice(index, 1);
+        this.service.es.push(data);
+      },
+      error: (err) => {
+        window.alert(err);
+      }
+    });
+  }
+
+  save() {
+    this.service.insert(this.customer).subscribe({
+      next: (data: Customer) => {
+        this.service.es.push(data);
+      },
+      error: (err) => {
+        window.alert(err);
+      }
+    });
   }
 }
