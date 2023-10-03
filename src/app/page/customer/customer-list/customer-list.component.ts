@@ -14,9 +14,10 @@ import { CustomerService } from '../share/customer.service';
 export class CustomerListComponent implements OnInit {
 
   columns = [
-    new Column<Customer>('name', 'Nome', item => item.name, '35%'),
-    new Column<Customer>('trade', 'Fantasia', item => item.trade, '30%'),
-    new Column<Customer>('address.street', 'Logradouro', item => item.address?.street, '30%'),
+    new Column<Customer>('name', 'Nome', item => item.name, '25%'),
+    new Column<Customer>('trade', 'Fantasia', item => item.trade, '25%'),
+    new Column<Customer>('address.neighborhood', 'Bairro', item => item.address?.neighborhood, '20%'),
+    new Column<Customer>('address.street', 'Logradouro', item => item.address?.street, '25%'),
     new Column<Customer>('id', 'ID', item => item.id, '5%')
   ];
 
@@ -32,6 +33,7 @@ export class CustomerListComponent implements OnInit {
       },
       error: (erro) => { console.log(erro) }
     });
+    this.filter();
   }
 
   openForm(id?: string) {
@@ -51,7 +53,26 @@ export class CustomerListComponent implements OnInit {
 
     const dialogRef = this.dialog.open(CustomerFormComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(() => {
+      this.dataSource.data = this.service.es;
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue?.trim().toLowerCase();
+  }
+
+  filter() {
+    this.dataSource.filterPredicate = ((data, filter) => {
+      let result = false;
+      for (const c of this.columns) {
+        if (c.value(data)?.toLowerCase().includes(filter)) {
+          result = true;
+          break;
+        }
+      }
+      return result;
+    })
   }
 
 }

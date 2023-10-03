@@ -46,23 +46,23 @@ export class CustomerFormComponent implements OnInit {
       trade: new FormControl({ value: this.customer.trade, disabled: this.view },
         [Validators.maxLength(50)]),
       document: new FormControl({ value: this.customer.document, disabled: this.view },
-        [Validators.maxLength(13)]),
+        [Validators.maxLength(18)]),
       registration: new FormControl({ value: this.customer.registration, disabled: this.view },
-        [Validators.maxLength(13)]),
+        [Validators.maxLength(18)]),
       cep: new FormControl({ value: this.customer.address?.cep, disabled: this.view },
-        [Validators.maxLength(13)]),
+        [Validators.maxLength(10)]),
       country: new FormControl({ value: this.customer.address?.country ?? 'Brasil', disabled: this.view },
-        [Validators.maxLength(13)]),
+        [Validators.maxLength(10)]),
       state: new FormControl({ value: this.customer.address?.state, disabled: this.view },
-        [Validators.maxLength(13)]),
+        [Validators.maxLength(2)]),
       city: new FormControl({ value: this.customer.address?.city, disabled: this.view },
-        [Validators.maxLength(13)]),
+        [Validators.maxLength(30)]),
       neighborhood: new FormControl({ value: this.customer.address?.neighborhood, disabled: this.view },
-        [Validators.maxLength(13)]),
+        [Validators.maxLength(30)]),
       street: new FormControl({ value: this.customer.address?.street, disabled: this.view },
         [Validators.maxLength(50)]),
       number: new FormControl({ value: this.customer.address?.number, disabled: this.view },
-        [Validators.maxLength(13)]),
+        [Validators.maxLength(10)]),
       contacts: this.fb.array([])
     });
 
@@ -86,9 +86,9 @@ export class CustomerFormComponent implements OnInit {
 
   addContact(contact?: Contact): FormGroup {
     return this.fb.group({
-      name: new FormControl({ value: contact?.name, disabled: this.view }),
-      email: new FormControl({ value: contact?.email, disabled: this.view }),
-      phone: new FormControl({ value: contact?.phone, disabled: this.view })
+      name: new FormControl({ value: contact?.name, disabled: this.view }, [Validators.maxLength(50)]),
+      email: new FormControl({ value: contact?.email, disabled: this.view }, [Validators.maxLength(50)]),
+      phone: new FormControl({ value: contact?.phone, disabled: this.view }, [Validators.maxLength(20)])
     })
   }
 
@@ -160,6 +160,7 @@ export class CustomerFormComponent implements OnInit {
         const index = this.service.es.findIndex(e => e.id === this.customer.id);
         this.service.es.splice(index, 1);
         this.service.es.push(data);
+        this.closeForm();
       },
       error: (err) => {
         window.alert(err);
@@ -171,6 +172,7 @@ export class CustomerFormComponent implements OnInit {
     this.service.insert(this.customer).subscribe({
       next: (data: Customer) => {
         this.service.es.push(data);
+        this.closeForm();
       },
       error: (err) => {
         window.alert(err);

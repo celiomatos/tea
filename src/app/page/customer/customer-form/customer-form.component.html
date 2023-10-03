@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-    <tea-form (closeForm)="closeForm()" (editForm)="editForm()" (saveForm)="saveForm()" [formValid]="!form.valid">
+    <tea-form (closeForm)="closeForm()" (editForm)="editForm()" (saveForm)="saveForm()" [formValid]="!form.valid" [btDeleteDisable]="undefined === customer.id">
         <div class="div-roll">
             <div class="div-container">
                 <mat-form-field class="field-full-width item-nome" appearance="outline">
@@ -17,24 +17,24 @@
 
                 <mat-form-field class="field-full-width item-cnpj" appearance="outline">
                     <mat-label>CNPJ/CPF</mat-label>
-                    <input matInput formControlName="document" [maxlength]="15">
+                    <input matInput formControlName="document" [maxlength]="18">
                 </mat-form-field>
 
                 <mat-form-field class="field-full-width item-ie" appearance="outline">
                     <mat-label>IE/RG</mat-label>
-                    <input matInput formControlName="registration" [maxlength]="15">
+                    <input matInput formControlName="registration" [maxlength]="18">
                 </mat-form-field>
             </div>
             <hr/>
             <div class="div-container">
                 <mat-form-field class="field-full-width item-cep" appearance="outline">
                     <mat-label>CEP</mat-label>
-                    <input matInput formControlName="cep" [maxlength]="50">
+                    <input matInput formControlName="cep" [maxlength]="10">
                 </mat-form-field>
 
                 <mat-form-field class="field-full-width item-pais" appearance="outline">
                     <mat-label>Pais</mat-label>
-                    <input matInput formControlName="country" [maxlength]="50">
+                    <input matInput formControlName="country" [maxlength]="10">
                 </mat-form-field>
 
                 <mat-form-field class="field-full-width item-estado" appearance="outline">
@@ -48,13 +48,13 @@
 
                 <mat-form-field class="field-full-width item-cidade" appearance="outline">
                     <mat-label>Cidade</mat-label>
-                    <input matInput formControlName="city" [maxlength]="15">
+                    <input matInput formControlName="city" [maxlength]="30">
                 </mat-form-field>
             </div>
             <div class="div-container">
                 <mat-form-field class="field-full-width item-bairro" appearance="outline">
                     <mat-label>Bairro</mat-label>
-                    <input matInput formControlName="neighborhood" [maxlength]="15">
+                    <input matInput formControlName="neighborhood" [maxlength]="30">
                 </mat-form-field>
 
                 <mat-form-field class="field-full-width item-logradouro" appearance="outline">
@@ -64,7 +64,7 @@
 
                 <mat-form-field class="field-full-width item-numero" appearance="outline">
                     <mat-label>Número</mat-label>
-                    <input matInput formControlName="number" [maxlength]="15">
+                    <input matInput formControlName="number" [maxlength]="10">
                 </mat-form-field>
             </div>
             <hr />
@@ -77,15 +77,15 @@
                         </button>
                     </ng-template>
                     <div class="div-container">
-                        <mat-form-field class="field-full-width item-cidade" appearance="outline">
+                        <mat-form-field class="field-full-width item-nome" appearance="outline">
                             <mat-label>Nome</mat-label>
                             <input matInput formControlName="name" id="{{ 'name' + i }}" [maxlength]="50">
                         </mat-form-field>
-                        <mat-form-field class="field-full-width item-cep" appearance="outline">
+                        <mat-form-field class="field-full-width item-phone" appearance="outline">
                             <mat-label>Celular</mat-label>
-                            <input matInput formControlName="phone" id="{{ 'phone' + i }}" [maxlength]="15">
+                            <input matInput formControlName="phone" id="{{ 'phone' + i }}" [maxlength]="20">
                         </mat-form-field>
-                        <mat-form-field class="field-full-width item-fantasia" appearance="outline">
+                        <mat-form-field class="field-full-width item-email" appearance="outline">
                             <mat-label>email</mat-label>
                             <input matInput formControlName="email" id="{{ 'email' + i }}" [maxlength]="50">
                         </mat-form-field>

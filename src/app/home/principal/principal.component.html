@@ -9,13 +9,13 @@
       <label class="icon-button" mat-button routerLink="/">
         <mat-icon>home</mat-icon>
       </label>
-      <label class="icon-button" mat-button (click)="sidenav.toggle()">
+      <label class="icon-button" mat-button (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
       </label>
       <label class="icon-button" mat-button routerLink="/pedido">
         <mat-icon>settings</mat-icon>
       </label>
-      <span>Celio Matos</span>
+      <span>{{user()}}</span>
     </div>  
   </mat-toolbar>
 
