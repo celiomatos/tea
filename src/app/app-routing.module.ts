@@ -15,8 +15,8 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'filial',
-        loadChildren: () => import('./page/filial/share/filial.module').then(m => m.FilialModule)
+        path: 'customer',
+        loadChildren: () => import('./page/customer/share/customer.module').then(m => m.CustomerlModule)
       },
       {
         path: 'fornecedor',

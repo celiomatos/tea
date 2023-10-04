@@ -1,16 +1,27 @@
-<mat-card>
-    <mat-card-title>Form Cadastro</mat-card-title>
-    <mat-card-actions>
-        <button mat-icon-button color="warn">
-          <mat-icon>favorite</mat-icon>
-        </button>
-
-        <button mat-icon-button (click)="close()">
-          <mat-icon>menu</mat-icon>
-        </button>
-    </mat-card-actions>
+<mat-card class="scrollable-content">
+    <mat-card-title>
+      <span>Cadastro</span>
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+    </mat-card-title>
     
     <mat-card-content>
-        <ng-content></ng-content>
+      <ng-content></ng-content>
     </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-button color="accent" (click)="edit()" [disabled]="btEditDisable">
+          Editar
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button color="warn" (click)="edit()" [disabled]="btDeleteDisable">
+          Excluir
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-button color="primary" (click)="save()" [disabled]="formValid">
+          Salvar
+          <mat-icon>done</mat-icon>
+        </button>
+    </mat-card-actions>
   </mat-card>

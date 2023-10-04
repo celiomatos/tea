@@ -6,6 +6,8 @@ import { environment } from "src/environments/environment";
 @Injectable()
 export abstract class ApiService<E> {
 
+    es: E[] = [];
+
     constructor(private readonly http: HttpClient) { }
 
     protected abstract entityPath(): string;
@@ -15,11 +17,12 @@ export abstract class ApiService<E> {
     }
 
     getById(id: string): Observable<E> {
-        return this.http.get<E>(this.path() + id);
+        return this.http.get<E>(this.path() + '/' + id);
     }
 
     getAll(): Observable<E[]> {
-        return this.http.get<E[]>(this.path());
+        return 0 === this.es.length ? this.http.get<E[]>(this.path())
+            : new Observable((observer) => { observer.next(this.es) });
     }
 
     insert(e: E): Observable<E> {
@@ -27,10 +30,10 @@ export abstract class ApiService<E> {
     }
 
     update(id: string, e: E): Observable<E> {
-        return this.http.put<E>(this.path() + id, e);
+        return this.http.put<E>(this.path() + '/' + id, e);
     }
 
     delete(id: string): Observable<E> {
-        return this.http.delete<E>(this.path() + id);
+        return this.http.delete<E>(this.path() + '/' + id);
     }
 }

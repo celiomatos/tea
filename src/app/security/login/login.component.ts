@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService) {
-    console.log(this.app.version);
   }
 
   ngOnInit(): void {
@@ -38,6 +37,7 @@ export class LoginComponent implements OnInit {
     this.authService.authenticate(loginRequest).subscribe({
       next: (data: LoginResponse) => {
         sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('name', data.name);
         this.router.navigate(['/']);
       },
       error: (erro) => { console.log(erro) }

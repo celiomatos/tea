@@ -1,21 +1,37 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'tea-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.sass']
 })
-export class FormComponent implements OnInit {
+export class FormComponent {
 
   @Output() closeForm = new EventEmitter();
+  @Output() editForm = new EventEmitter();
+  @Output() saveForm = new EventEmitter();
+  @Output() deleteForm = new EventEmitter();
 
-  constructor() { }
+  @Input() formValid = true;
+  @Input() btDeleteDisable = true;
 
-  ngOnInit(): void {
-  }
+  btEditDisable = false;
 
   close() {
     this.closeForm.emit();
+  }
+
+  edit() {
+    this.btEditDisable = true;
+    this.editForm.emit();
+  }
+
+  save() {
+    this.saveForm.emit();
+  }
+
+  delete() {
+    this.deleteForm.emit();
   }
 
 }
