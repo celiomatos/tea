@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'https://jtea.onrender.com/api/'
+  url: 'https://jtea.onrender.com/'
 };
