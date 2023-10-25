@@ -1,0 +1,53 @@
+<form [formGroup]="form">
+    <tea-form (closeForm)="closeForm()" (editForm)="editForm()" (saveForm)="saveForm()" 
+        [formValid]="!form.valid" [btDeleteDisable]="undefined === schedule.id">
+        <div class="div-col">
+            <mat-form-field class="field-full-width" appearance="outline">
+                <mat-label>Evento</mat-label>
+                <input matInput formControlName="title" [maxlength]="100">
+                <mat-error *ngIf="form.controls['title'].hasError('required')">
+                    <span> Campo Obrigário </span>
+                </mat-error>
+            </mat-form-field>
+
+            <div class="div-row">
+                <mat-form-field class="div-date" appearance="outline">
+                    <mat-label>Início</mat-label>
+                    <input matInput [matDatepicker]="startPicker" formControlName="start">
+                    <mat-datepicker #startPicker></mat-datepicker>
+                    <mat-error *ngIf="form.controls['start'].hasError('required')">
+                        <span> Campo Obrigário </span>
+                    </mat-error>
+                </mat-form-field>
+                <mat-icon (click)="startPicker.open()">date_range</mat-icon>
+
+                <mat-form-field class="div-time" appearance="outline">
+                    <mat-label>H</mat-label>
+                    <mat-select formControlName="hourStart">
+                        <mat-option *ngFor="let hour of hours" [value]="hour">
+                            {{ hour }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="div-time" appearance="outline">
+                    <mat-label>M</mat-label>
+                    <mat-select formControlName="hourStart">
+                        <mat-option *ngFor="let minunte of minutes" [value]="minunte">
+                            {{ minunte }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> 
+
+            <div class="div-row">
+                <mat-form-field appearance="outline">
+                    <mat-label>Fim</mat-label>
+                    <input matInput [matDatepicker]="endPicker" formControlName="end">
+                    <mat-datepicker #endPicker></mat-datepicker>
+                </mat-form-field>
+                <mat-icon>date_range</mat-icon>
+            </div>
+        </div>
+    </tea-form>
+</form>

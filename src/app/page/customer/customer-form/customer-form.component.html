@@ -1,5 +1,8 @@
 <form [formGroup]="form">
-    <tea-form (closeForm)="closeForm()" (editForm)="editForm()" (saveForm)="saveForm()" [formValid]="!form.valid" [btDeleteDisable]="undefined === customer.id">
+    <tea-form (closeForm)="closeForm()" (editForm)="editForm()" (saveForm)="saveForm()" 
+        [formValid]="!form.valid" 
+        [btDeleteDisable]="undefined === customer.id" 
+        [btEditDisable]="undefined === customer.id">
         <div class="div-roll">
             <div class="div-container">
                 <mat-form-field class="field-full-width item-nome" appearance="outline">

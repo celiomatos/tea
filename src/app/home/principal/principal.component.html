@@ -20,7 +20,7 @@
   </mat-toolbar>
 
   <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="side" opened class="menu-sidenav" 
+    <mat-sidenav #sidenav mode="side" closed class="menu-sidenav" 
         [fixedInViewport]="false" [fixedTopGap]="0" [fixedBottomGap]="0">
 
         <div class="logo">
@@ -31,16 +31,16 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <mat-icon>map</mat-icon> Cadastro
+                <mat-icon>assignment</mat-icon> Cadastro
               </mat-panel-title>
             </mat-expansion-panel-header>
             <a mat-button class="item-menu" routerLink="/customer" (click)="sidenav.toggle()">- Clientes</a>
             <a mat-button class="item-menu" routerLink="/product">- Produtos</a>
           </mat-expansion-panel>
 
-          <button mat-raised-button routerLink="/produto" class="bt-item-menu">
-            <mat-icon>home</mat-icon> <span>View</span> 
-          </button>
+          <a mat-button routerLink="/schedule" (click)="sidenav.toggle()" class="bt-item-menu">
+            <mat-icon>date_range</mat-icon> <span>Agenda</span> 
+          </a>
 
           <mat-expansion-panel>
             <mat-expansion-panel-header>

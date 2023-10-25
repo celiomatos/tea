@@ -19,8 +19,8 @@ const routes: Routes = [
         loadChildren: () => import('./page/customer/share/customer.module').then(m => m.CustomerlModule)
       },
       {
-        path: 'fornecedor',
-        loadChildren: () => import('./page/fornecedor/share/fornecedor.module').then(m => m.FornecedorModule)
+        path: 'schedule',
+        loadChildren: () => import('./page/schedule/share/schedule.module').then(m => m.ScheduleModule)
       },
       {
         path: 'pedido',

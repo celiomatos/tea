@@ -12,10 +12,10 @@ export class FormComponent {
   @Output() saveForm = new EventEmitter();
   @Output() deleteForm = new EventEmitter();
 
-  @Input() formValid = true;
+  @Input() formValid = false;
   @Input() btDeleteDisable = true;
 
-  btEditDisable = false;
+  @Input() btEditDisable = true;
 
   close() {
     this.closeForm.emit();

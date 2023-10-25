@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "src/app/core/api.service";
-import { Customer } from "../../customer/share/customer";
+import { Schedule } from "./schedule";
 
 @Injectable()
-export class CustomerService extends ApiService<Customer> {
+export class ScheduleService extends ApiService<Schedule> {
 
     protected override entityPath(): string {
-        return 'customer';
+        return 'scheduler';
     }
 
 }

@@ -11,17 +11,17 @@
     </mat-card-content>
 
     <mat-card-actions>
-        <button mat-button color="accent" (click)="edit()" [disabled]="btEditDisable">
+        <button mat-button color="accent" (click)="edit()" *ngIf="!btEditDisable">
           Editar
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-button color="warn" (click)="edit()" [disabled]="btDeleteDisable">
-          Excluir
-          <mat-icon>delete</mat-icon>
-        </button>
-        <button mat-button color="primary" (click)="save()" [disabled]="formValid">
+        <button mat-button color="primary" (click)="save()" *ngIf="!formValid">
           Salvar
           <mat-icon>done</mat-icon>
+        </button>
+        <button mat-button color="warn" (click)="edit()" *ngIf="!btDeleteDisable">
+          Excluir
+          <mat-icon>delete</mat-icon>
         </button>
     </mat-card-actions>
   </mat-card>

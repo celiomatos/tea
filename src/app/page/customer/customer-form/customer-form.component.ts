@@ -158,8 +158,7 @@ export class CustomerFormComponent implements OnInit {
     this.service.update(this.customer.id, this.customer).subscribe({
       next: (data: Customer) => {
         const index = this.service.es.findIndex(e => e.id === this.customer.id);
-        this.service.es.splice(index, 1);
-        this.service.es.push(data);
+        this.service.es[index] = data;
         this.closeForm();
       },
       error: (err) => {
