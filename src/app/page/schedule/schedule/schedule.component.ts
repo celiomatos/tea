@@ -71,17 +71,12 @@ export class ScheduleComponent implements OnInit {
 
   handleDateClick(arg: DateClickArg) {
     let event = new Schedule();
-    event.start = arg.date;
-    event.end = arg.date;
+    event.date = arg.date;
     this.addEvent(event);
   }
 
   handleEventClick(info: EventClickArg) {
-    let event = new Schedule();
-    event.id = info.event.id;
-    event.title = info.event.title;
-    event.start = info.event.start ?? new Date();
-    event.end = info.event.end ?? event.start;
+    let event = this.events.filter(e => e.id === info.event.id)[0];
     this.addEvent(event);
   }
 

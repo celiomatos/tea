@@ -1,7 +1,8 @@
 export class Schedule {
     id: string;
     title: string;
-    start: Date;
-    end: Date;
+    date: Date;
+    days: string[];
+    repeat: string;
     color: string;
 }

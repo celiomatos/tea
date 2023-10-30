@@ -1,6 +1,8 @@
 <form [formGroup]="form">
     <tea-form (closeForm)="closeForm()" (editForm)="editForm()" (saveForm)="saveForm()" 
-        [formValid]="!form.valid" [btDeleteDisable]="undefined === schedule.id">
+        [formValid]="!form.valid" 
+        [btDeleteDisable]="undefined === schedule.id" 
+        [btEditDisable]="undefined === schedule.id">
         <div class="div-col">
             <mat-form-field class="field-full-width" appearance="outline">
                 <mat-label>Evento</mat-label>
@@ -12,18 +14,18 @@
 
             <div class="div-row">
                 <mat-form-field class="div-date" appearance="outline">
-                    <mat-label>Início</mat-label>
-                    <input matInput [matDatepicker]="startPicker" formControlName="start">
-                    <mat-datepicker #startPicker></mat-datepicker>
-                    <mat-error *ngIf="form.controls['start'].hasError('required')">
+                    <mat-label>Data de início</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="date">
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="form.controls['date'].hasError('required')">
                         <span> Campo Obrigário </span>
                     </mat-error>
                 </mat-form-field>
-                <mat-icon (click)="startPicker.open()">date_range</mat-icon>
+                <mat-icon (click)="picker.open()">date_range</mat-icon>
 
                 <mat-form-field class="div-time" appearance="outline">
                     <mat-label>H</mat-label>
-                    <mat-select formControlName="hourStart">
+                    <mat-select formControlName="hour">
                         <mat-option *ngFor="let hour of hours" [value]="hour">
                             {{ hour }}
                         </mat-option>
@@ -32,22 +34,38 @@
 
                 <mat-form-field class="div-time" appearance="outline">
                     <mat-label>M</mat-label>
-                    <mat-select formControlName="hourStart">
+                    <mat-select formControlName="min">
                         <mat-option *ngFor="let minunte of minutes" [value]="minunte">
                             {{ minunte }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div> 
-
-            <div class="div-row">
-                <mat-form-field appearance="outline">
-                    <mat-label>Fim</mat-label>
-                    <input matInput [matDatepicker]="endPicker" formControlName="end">
-                    <mat-datepicker #endPicker></mat-datepicker>
-                </mat-form-field>
-                <mat-icon>date_range</mat-icon>
-            </div>
+            <fieldset>
+                <legend>Dias da semana</legend>
+                <div class="div-week">
+                    <div class="div-row">
+                        <mat-checkbox formControlName="mon">Seg</mat-checkbox>
+                        <mat-checkbox formControlName="tue">Ter</mat-checkbox>
+                        <mat-checkbox formControlName="wed">Qua</mat-checkbox>
+                        <mat-checkbox formControlName="thu">Qui</mat-checkbox>
+                    </div>
+                    <div class="div-row">
+                        <mat-checkbox formControlName="fri">Sex</mat-checkbox>
+                        <mat-checkbox formControlName="sat">Sab</mat-checkbox>
+                        <mat-checkbox formControlName="sun">Dom</mat-checkbox>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Repetir</legend>
+                <mat-radio-group formControlName="repeat">
+                    <mat-radio-button value="W">Semanalmente</mat-radio-button>
+                    <mat-radio-button value="Q">Quinzenalmente</mat-radio-button>
+                    <mat-radio-button value="M">Mensalmente</mat-radio-button>
+                    <mat-radio-button value="N">Não repetir</mat-radio-button>
+                </mat-radio-group>
+            </fieldset>
         </div>
     </tea-form>
 </form>
