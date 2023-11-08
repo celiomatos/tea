@@ -5,4 +5,5 @@ export class Schedule {
     days: string[];
     repeat: string;
     color: string;
+    createdAt: Date;
 }

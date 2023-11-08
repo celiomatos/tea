@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
@@ -17,7 +16,6 @@ import { ScheduleService } from '../share/schedule.service';
 })
 export class ScheduleComponent implements OnInit {
 
-  @ViewChild('calendar') fullCalendar: FullCalendarComponent;
   events: Schedule[] = [];
   colors = ['red', 'green', 'blue', 'black', 'purple', 'orange'];
 
@@ -33,7 +31,6 @@ export class ScheduleComponent implements OnInit {
   init(): void {
     this.service.getAll().subscribe({
       next: (data: Schedule[]) => {
-        this.service.es = data;
         this.events = [...data];
         this.events.forEach(d => d.color = this.colors[Math.floor(Math.random() * 5)]);
         this.calendarOptions.events = this.events;
@@ -90,8 +87,8 @@ export class ScheduleComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(ScheduleFormComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(() => {
-      this.init();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.event === 'altered') this.init();
     });
   }
 

@@ -24,11 +24,10 @@ export class ScheduleFormComponent implements OnInit {
     private service: ScheduleService) {
 
     this.schedule = data.event;
+    this.schedule.date = new Date(data.event.date);
     if (!data.event.id) {
       this.view = false;
     }
-    console.log(this.schedule.date);
-    console.log(this.schedule.date.toString());
   }
 
   ngOnInit(): void {
@@ -38,9 +37,9 @@ export class ScheduleFormComponent implements OnInit {
         [Validators.maxLength(100), Validators.required]),
       date: new FormControl({ value: this.schedule.date, disabled: this.view },
         [Validators.required]),
-      hour: new FormControl({ value: '08', disabled: this.view },
+      hour: new FormControl({ value: this.getHours(this.schedule.date), disabled: this.view },
         [Validators.required]),
-      min: new FormControl({ value: '00', disabled: this.view },
+      min: new FormControl({ value: this.getMinutes(this.schedule.date), disabled: this.view },
         [Validators.required]),
       repeat: new FormControl({ value: this.schedule.repeat ?? 'N', disabled: this.view }),
       sun: new FormControl({ value: this.schedule.days?.includes('dom'), disabled: this.view }),
@@ -53,8 +52,16 @@ export class ScheduleFormComponent implements OnInit {
     });
   }
 
-  closeForm() {
-    this.dialogRef.close();
+  getHours(date: Date): string {
+    return date.getHours() > 9 ? date.getHours().toString() : '0' + date.getHours();
+  }
+
+  getMinutes(date: Date): string {
+    return date.getMinutes() > 9 ? date.getMinutes().toString() : '0' + date.getMinutes();
+  }
+
+  closeForm(altered: string = '') {
+    this.dialogRef.close({ event: altered });
   }
 
   editForm() {
@@ -63,12 +70,19 @@ export class ScheduleFormComponent implements OnInit {
     this.form.controls['date'].enable();
     this.form.controls['hour'].enable();
     this.form.controls['min'].enable();
+    this.form.controls['sun'].enable();
+    this.form.controls['mon'].enable();
+    this.form.controls['tue'].enable();
+    this.form.controls['wed'].enable();
+    this.form.controls['thu'].enable();
+    this.form.controls['fri'].enable();
+    this.form.controls['sat'].enable();
     this.form.controls['repeat'].enable();
   }
 
   saveForm() {
     this.schedule.title = this.form.controls['title']?.value;
-    this.schedule.date = new Date(this.form.controls['date']?.value);
+    this.schedule.date = this.form.controls['date']?.value;
     this.schedule.date.setHours(this.form.controls['hour'].value, this.form.controls['min'].value);
     this.schedule.repeat = this.form.controls['repeat']?.value;
     this.schedule.days = [];
@@ -84,14 +98,10 @@ export class ScheduleFormComponent implements OnInit {
   }
 
   save() {
-    console.log(this.schedule.title);
-    console.log(this.schedule.date);
-    console.log(this.schedule.repeat);
-    console.log(this.schedule.days);
     this.service.insert(this.schedule).subscribe({
       next: (data: Schedule) => {
         this.service.es.push(data);
-        this.closeForm();
+        this.closeForm('altered');
       },
       error: (err) => {
         window.alert(err);
@@ -105,7 +115,7 @@ export class ScheduleFormComponent implements OnInit {
         const index = this.service.es.findIndex(e => e.id === this.schedule.id);
         this.service.es.splice(index, 1);
         this.service.es[index] = data;
-        this.closeForm();
+        this.closeForm('altered');
       },
       error: (err) => {
         window.alert(err);
