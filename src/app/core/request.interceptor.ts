@@ -1,11 +1,13 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
-import { Observable, catchError, throwError, timeout } from "rxjs";
+import { Observable, catchError, retry, throwError, timer } from "rxjs";
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
-    constructor(private readonly router: Router) { }
+
+    constructor(private readonly router: Router, private readonly snackBar: MatSnackBar,) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const token = sessionStorage.getItem('token');
@@ -15,15 +17,29 @@ export class RequestInterceptor implements HttpInterceptor {
             })
         }
         return next.handle(req)
-            .pipe(timeout(30000))
+            .pipe(retry({ count: 5, delay: this.shouldRetry }))
             .pipe(catchError((err: HttpErrorResponse) => {
-                if (401 === err.status) {
+                console.log(err.error.message);
+                if (0 === err.status) {
+                    this.snackBar.open('Servidor off-line!', '', { duration: 6000 });
+                } else if ('Bad credentials' === err.error.message) {
+                    this.snackBar.open('Usuário inválido', '', { duration: 6000 });
+                } else if (401 === err.status) {
+                    this.snackBar.open('Sessão expirou', '', { duration: 6000 });
                     sessionStorage.clear();
                     this.router.navigate(['/login'])
+                } else {
+                    this.snackBar.open(err.error, '', { duration: 6000 });
                 }
-                return throwError(() => new Error(err.error));
-            }));
+                return throwError(() => err.error);
+            }))
     }
 
+    shouldRetry(error: HttpErrorResponse) {
+        if (0 === error.status) {
+            return timer(120000);
+        }
+        throw error;
+    }
 
 }

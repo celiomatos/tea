@@ -1,12 +1,17 @@
 <mat-card>
     <mat-card-title>Pesquisa</mat-card-title>
-    <mat-card-actions>
+    
+    <mat-card-content>
+      <div class="filter">
+        <mat-form-field class="field-full-width item-filter" appearance="outline">
+          <mat-label>Filtro</mat-label>
+          <input matInput maxlength="50" (keyup)="applyFilter($event)">
+        </mat-form-field>
+
         <button mat-icon-button (click)="openForm()">
           <mat-icon>open_in_new</mat-icon>
         </button>
-    </mat-card-actions>
-    
-    <mat-card-content>
+      </div>
         <ng-content></ng-content>
     </mat-card-content>
   </mat-card>

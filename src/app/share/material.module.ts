@@ -11,8 +11,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -34,6 +36,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatFormFieldModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   imports: [
     MatTableModule,
@@ -52,6 +56,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatFormFieldModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class MaterialModule { }

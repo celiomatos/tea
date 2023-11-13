@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private readonly authService: AuthService) {
+    private readonly authService: AuthService,) {
   }
 
   ngOnInit(): void {
@@ -40,8 +40,12 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('name', data.name);
         this.router.navigate(['/']);
       },
-      error: (erro) => { console.log(erro) }
     });
+  }
+
+  clear() {
+    this.form.get('user')?.setValue('');
+    this.form.get('pw')?.setValue('');
   }
 
 }

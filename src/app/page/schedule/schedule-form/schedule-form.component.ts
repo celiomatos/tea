@@ -99,8 +99,7 @@ export class ScheduleFormComponent implements OnInit {
 
   save() {
     this.service.insert(this.schedule).subscribe({
-      next: (data: Schedule) => {
-        this.service.es.push(data);
+      next: () => {
         this.closeForm('altered');
       },
       error: (err) => {
@@ -111,10 +110,7 @@ export class ScheduleFormComponent implements OnInit {
 
   update() {
     this.service.update(this.schedule.id, this.schedule).subscribe({
-      next: (data: Schedule) => {
-        const index = this.service.es.findIndex(e => e.id === this.schedule.id);
-        this.service.es.splice(index, 1);
-        this.service.es[index] = data;
+      next: () => {
         this.closeForm('altered');
       },
       error: (err) => {

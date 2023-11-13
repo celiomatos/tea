@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Address } from 'src/app/share/components/model/address';
 import { Contact } from 'src/app/share/components/model/contact';
@@ -25,9 +26,10 @@ export class CustomerFormComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<CustomerFormComponent>,
-    private service: CustomerService) {
+    private readonly fb: FormBuilder,
+    private readonly dialogRef: MatDialogRef<CustomerFormComponent>,
+    private readonly service: CustomerService,
+    private readonly snackBar: MatSnackBar) {
 
     if (data.id) {
       this.customer = data.customer;
@@ -161,9 +163,6 @@ export class CustomerFormComponent implements OnInit {
         this.service.es[index] = data;
         this.closeForm();
       },
-      error: (err) => {
-        window.alert(err);
-      }
     });
   }
 
@@ -173,9 +172,6 @@ export class CustomerFormComponent implements OnInit {
         this.service.es.push(data);
         this.closeForm();
       },
-      error: (err) => {
-        window.alert(err);
-      }
     });
   }
 }

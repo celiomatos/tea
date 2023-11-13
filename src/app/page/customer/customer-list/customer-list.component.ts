@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Column } from 'src/app/share/components/table/column';
 import { Customer } from '../../customer/share/customer';
@@ -23,7 +24,10 @@ export class CustomerListComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Customer>();
 
-  constructor(public dialog: MatDialog, private readonly service: CustomerService) { }
+  constructor(
+    public dialog: MatDialog,
+    private readonly service: CustomerService,
+    private readonly snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.service.getAll().subscribe({
@@ -31,9 +35,7 @@ export class CustomerListComponent implements OnInit {
         this.dataSource.data = data;
         this.service.es = data
       },
-      error: (erro) => { console.log(erro) }
     });
-    this.filter();
   }
 
   openForm(id?: string) {
@@ -60,19 +62,6 @@ export class CustomerListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue?.trim().toLowerCase();
-  }
-
-  filter() {
-    this.dataSource.filterPredicate = ((data, filter) => {
-      let result = false;
-      for (const c of this.columns) {
-        if (c.value(data)?.toLowerCase().includes(filter)) {
-          result = true;
-          break;
-        }
-      }
-      return result;
-    })
   }
 
 }

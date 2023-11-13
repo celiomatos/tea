@@ -24,8 +24,9 @@ export class TableComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.columns.forEach(c => { this.displayedColumns.push(c.field) })
-    this.columns.forEach(c => { this.columnWidths.push(c.width) })
+    this.columns.forEach(c => { this.displayedColumns.push(c.field) });
+    this.columns.forEach(c => { this.columnWidths.push(c.width) });
+    this.filter();
   }
 
   ngAfterViewInit() {
@@ -35,6 +36,22 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   openForm(id: string) {
     this.sendId.emit(id);
+  }
+
+  filter() {
+    this.dataSource.filterPredicate = ((data, filter) => {
+      let result = false;
+      filter = filter.normalize('NFD').replace(/[^\x00-\x7F]/g, '');
+      for (const c of this.columns) {
+        if (c.value(data)?.normalize('NFD')
+          .replace(/[^\x00-\x7F]/g, '')
+          .toLowerCase().includes(filter)) {
+          result = true;
+          break;
+        }
+      }
+      return result;
+    })
   }
 }
 

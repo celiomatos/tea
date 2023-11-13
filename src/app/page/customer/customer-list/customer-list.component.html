@@ -1,9 +1,4 @@
 <div class="div-class">
-    <tea-search (open)="openForm()">
-      <mat-form-field class="field-full-width item-filter" appearance="outline">
-        <mat-label>Filtro</mat-label>
-        <input matInput maxlength="50" (keyup)="applyFilter($event)">
-    </mat-form-field>
-    </tea-search>
+    <tea-search (open)="openForm()" (filter)="applyFilter($event)"></tea-search>
     <tea-table (sendId)="openForm($event)" [columns]="columns" [dataSource] = "dataSource"></tea-table>
 </div>

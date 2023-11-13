@@ -8,9 +8,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class SearchComponent {
 
   @Output() open = new EventEmitter();
+  @Output() filter = new EventEmitter();
 
   openForm() {
     this.open.emit();
+  }
+
+  applyFilter(event: Event) {
+    this.filter.emit(event);
   }
 
 }
