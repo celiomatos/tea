@@ -9,12 +9,14 @@ import { AppComponent } from './app.component';
 import { RequestInterceptor } from './core/request.interceptor';
 import { PrincipalModule } from './home/share/principal.module';
 import { LoginComponent } from './security/login/login.component';
+import { SpinnerComponent } from './share/components/spinner/spinner.component';
 import { MaterialModule } from './share/material.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

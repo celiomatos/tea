@@ -10,12 +10,14 @@ import { MaterialModule } from './material.module';
   declarations: [
     TableComponent,
     FormComponent,
-    SearchComponent],
+    SearchComponent,
+  ],
 
   exports: [
     TableComponent,
     SearchComponent,
-    FormComponent],
+    FormComponent,
+  ],
 
   imports: [
     CommonModule,

@@ -2,14 +2,19 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
-import { Observable, catchError, retry, throwError, timer } from "rxjs";
+import { Observable, catchError, finalize, retry, throwError, timer } from "rxjs";
+import { SpinnerHandlerService } from "../share/components/spinner/spinner-handler.service";
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
 
-    constructor(private readonly router: Router, private readonly snackBar: MatSnackBar,) { }
+    constructor(
+        private readonly router: Router,
+        private readonly snackBar: MatSnackBar,
+        public spinnerHandler: SpinnerHandlerService,) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        this.spinnerHandler.handleRequest('plus');
         const token = sessionStorage.getItem('token');
         if (token) {
             req = req.clone({
@@ -17,9 +22,8 @@ export class RequestInterceptor implements HttpInterceptor {
             })
         }
         return next.handle(req)
-            .pipe(retry({ count: 5, delay: this.shouldRetry }))
+            .pipe(retry({ count: 3, delay: this.shouldRetry }))
             .pipe(catchError((err: HttpErrorResponse) => {
-                console.log(err.error.message);
                 if (0 === err.status) {
                     this.snackBar.open('Servidor off-line!', '', { duration: 6000 });
                 } else if ('Bad credentials' === err.error.message) {
@@ -33,7 +37,10 @@ export class RequestInterceptor implements HttpInterceptor {
                 }
                 return throwError(() => err.error);
             }))
+            .pipe(finalize(this.finalize.bind(this)))
     }
+
+    finalize = (): void => this.spinnerHandler.handleRequest();
 
     shouldRetry(error: HttpErrorResponse) {
         if (0 === error.status) {
