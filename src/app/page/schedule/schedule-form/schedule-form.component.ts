@@ -14,6 +14,7 @@ export class ScheduleFormComponent implements OnInit {
   form: FormGroup;
   schedule: Schedule;
   view = true;
+  week = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   hours = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11',
     '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
   minutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']
@@ -31,6 +32,11 @@ export class ScheduleFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.createForm();
+    this.dateChange();
+  }
+
+  createForm() {
     this.form = new FormGroup({
       id: new FormControl({ value: this.schedule.id, disabled: true }),
       title: new FormControl({ value: this.schedule.title, disabled: this.view },
@@ -50,6 +56,28 @@ export class ScheduleFormComponent implements OnInit {
       fri: new FormControl({ value: this.schedule.days?.includes('sex'), disabled: this.view }),
       sat: new FormControl({ value: this.schedule.days?.includes('sab'), disabled: this.view })
     });
+  }
+
+  get date() {
+    return this.form.get('date') as FormControl;
+  }
+
+  dateChange() {
+    this.checkDayWeek(this.schedule.date, false);
+    this.date.valueChanges.subscribe((value: Date) => {
+      this.checkDayWeek(value);
+    })
+  }
+
+  checkDayWeek(value: Date, change: boolean = true) {
+    this.week.forEach((day, index) => {
+      if (index === value.getDay()) {
+        this.form.controls[day].setValue(true);
+        this.form.controls[day].disable();
+      } else if (change) {
+        this.form.controls[day].enable();
+      }
+    })
   }
 
   getHours(date: Date): string {
@@ -102,9 +130,6 @@ export class ScheduleFormComponent implements OnInit {
       next: () => {
         this.closeForm('altered');
       },
-      error: (err) => {
-        window.alert(err);
-      }
     })
   }
 
@@ -113,9 +138,6 @@ export class ScheduleFormComponent implements OnInit {
       next: () => {
         this.closeForm('altered');
       },
-      error: (err) => {
-        window.alert(err);
-      }
     });
   }
 

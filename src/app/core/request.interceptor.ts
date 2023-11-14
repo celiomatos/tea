@@ -18,29 +18,33 @@ export class RequestInterceptor implements HttpInterceptor {
         const token = sessionStorage.getItem('token');
         if (token) {
             req = req.clone({
-                headers: req.headers.set('Authorization', 'Bearer ' + token)
+                headers: req.headers.set('Authorization', `Bearer ${token}`)
             })
         }
         return next.handle(req)
             .pipe(retry({ count: 3, delay: this.shouldRetry }))
             .pipe(catchError((err: HttpErrorResponse) => {
-                if (0 === err.status) {
-                    this.snackBar.open('Servidor off-line!', '', { duration: 6000 });
-                } else if ('Bad credentials' === err.error.message) {
-                    this.snackBar.open('Usuário inválido', '', { duration: 6000 });
-                } else if (401 === err.status) {
-                    this.snackBar.open('Sessão expirou', '', { duration: 6000 });
-                    sessionStorage.clear();
-                    this.router.navigate(['/login'])
-                } else {
-                    this.snackBar.open(err.error, '', { duration: 6000 });
-                }
-                return throwError(() => err.error);
+                this.handleError(err);
+                return throwError(() => err);
             }))
             .pipe(finalize(this.finalize.bind(this)))
     }
 
-    finalize = (): void => this.spinnerHandler.handleRequest();
+    handleError = (err: any) => {
+        if (0 === err.status) {
+            this.snackBar.open('Servidor off-line!', '', { duration: 6000 });
+        } else if ('Bad credentials' === err.error.message) {
+            this.snackBar.open('Usuário inválido', '', { duration: 6000 });
+        } else if (401 === err.status) {
+            this.snackBar.open('Sessão expirou', '', { duration: 6000 });
+            sessionStorage.clear();
+            this.router.navigate(['/login'])
+        } else {
+            this.snackBar.open(err.error, '', { duration: 6000 });
+        }
+    }
+
+    finalize = () => this.spinnerHandler.handleRequest();
 
     shouldRetry(error: HttpErrorResponse) {
         if (0 === error.status) {

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { environment } from "src/environments/environment";
 
 @Injectable()
@@ -21,8 +21,7 @@ export abstract class ApiService<E> {
     }
 
     getAll(): Observable<E[]> {
-        return 0 === this.es.length ? this.http.get<E[]>(this.path())
-            : new Observable((observer) => { observer.next(this.es) });
+        return 0 === this.es.length ? this.http.get<E[]>(this.path()) : of(this.es);
     }
 
     insert(e: E): Observable<E> {
